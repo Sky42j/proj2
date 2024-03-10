@@ -218,12 +218,16 @@ public class BinomialHeap {
 					xPrev = y;
 				x = link(x, y);
 				this.reattachTree(xPrev, x);
-				if (x.next.rank == x.rank && x.next != x) {
-					x = this.detachTree(xPrev);
-					if (xPrev == this.last && xPrev.item.key > x.item.key)
+				while (x.next.rank == x.rank && x.next != x) {
+					y = this.detachTree(x);
+					if (xPrev == y)
 						xPrev = x;
-					BinomialHeap xHeap = new BinomialHeap(x);
-					this.meld(xHeap);
+					x = this.detachTree(xPrev);
+					// if (xPrev == this.last && xPrev.item.key > x.item.key) {
+					// xPrev = x;
+					// }
+					x = link(x, y);
+					this.reattachTree(xPrev, x);
 				}
 			} else if (xPrev.next.rank > yPrev.next.rank) {
 				y = heap2.detachTree(yPrev);
