@@ -22,7 +22,7 @@ public class HeapGraph extends Canvas {
     }
 
     public void paintHeap(BinomialHeap heap, Graphics g, int y) {
-        int unit = this.getWidth() / (rankSum(heap) * 1 / 2);
+        int unit = this.getWidth() / (rankSum(heap) * 2);
         BinomialHeap.HeapNode tree = heap.last.next;
         int lastBorder = tree.rank * unit;
         if (lastBorder == 0)

@@ -221,12 +221,12 @@ public class BinomialHeap {
 				while (x.next.rank == x.rank && x.next != x) {
 					y = this.detachTree(x);
 					if (xPrev == y)
-						xPrev = x;
-					x = this.detachTree(xPrev);
-					// if (xPrev == this.last && xPrev.item.key > x.item.key) {
-					// xPrev = x;
-					// }
+						x = this.detachTree(x);
+					else
+						x = this.detachTree(xPrev);
 					x = link(x, y);
+					if (xPrev == y)
+						xPrev = x;
 					this.reattachTree(xPrev, x);
 				}
 			} else if (xPrev.next.rank > yPrev.next.rank) {
