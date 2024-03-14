@@ -9,10 +9,6 @@ public class BinomialHeap {
 	public HeapNode last;
 	public HeapNode min;
 
-	// DELETE LATER//
-	public static int connectionCounter = 0;
-	// DELETE LATER//
-
 	/**
 	 *
 	 * Construct an empty Binomial Heap
@@ -59,9 +55,6 @@ public class BinomialHeap {
 	 */
 	// complexity: O(1)
 	public HeapNode link(HeapNode x, HeapNode y) {
-		// DELETE LATER//
-		connectionCounter++;
-		// DELETE LATER//
 		// make sure x always has the smaller key
 		if (x.item.key > y.item.key) {
 			HeapNode temp = x;
@@ -87,6 +80,9 @@ public class BinomialHeap {
 	 */
 	// complexity: O(log(n))
 	public void deleteMin() {
+		if (this.empty())
+			return;
+
 		BinomialHeap childHeap = new BinomialHeap();
 		HeapNode node;
 
