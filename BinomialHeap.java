@@ -110,15 +110,13 @@ public class BinomialHeap {
 				node = node.next;
 			}
 			detachTree(node);
-
-			this.min = this.last;
-
 			meld(childHeap);
 		}
 
 		if (!this.empty()) {
 			// find new min
 			node = this.last.next;
+			this.min = node;
 			boolean iterationDone = false;
 			while (!iterationDone) {
 				// check if final tree has been reached
@@ -139,6 +137,8 @@ public class BinomialHeap {
 	 */
 	// complexity: O(1)
 	public HeapItem findMin() {
+		if (this.min == null)
+			return null;
 		return this.min.item;
 	}
 
@@ -197,16 +197,13 @@ public class BinomialHeap {
 			return;
 		}
 
-		// update min
-		if (heap2.min.item.key < this.min.item.key)
-			this.min = heap2.min;
-
 		HeapNode xPrev = this.last;
 		HeapNode yPrev = heap2.last;
 
 		HeapNode y;
 		HeapNode x;
-		while (!heap2.empty()) {
+
+		while (!heap2.empty() && heap2.last.next.rank <= this.last.rank) {
 			if (xPrev.next.rank == yPrev.next.rank) {
 				y = heap2.detachTree(yPrev);
 				x = this.detachTree(xPrev);
@@ -231,6 +228,11 @@ public class BinomialHeap {
 			} else {
 				xPrev = xPrev.next;
 			}
+		}
+
+		while (!heap2.empty()) {
+			y = heap2.detachTree(yPrev);
+			this.reattachTree(this.last, y);
 		}
 		return;
 	}
@@ -273,6 +275,8 @@ public class BinomialHeap {
 		}
 		if (node.rank > this.last.rank)
 			this.last = node;
+		if (node.item.key <= this.min.item.key)
+			this.min = node;
 		this.size += Math.pow(2, node.rank);
 		return node;
 	}
